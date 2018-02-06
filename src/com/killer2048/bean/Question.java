@@ -1,12 +1,15 @@
 package com.killer2048.bean;
 
 import java.util.List;
+import java.util.Map;
 
 public class Question {
 	private int qid;
 	private String question;
 	private int point;
-	private List<Answer> answers;
+	//         选项编号  选项对象
+	//          aid =>Answer对象
+	private Map<String,Answer> answers;
 	public int getQid() {
 		return qid;
 	}
@@ -25,10 +28,10 @@ public class Question {
 	public void setPoint(int point) {
 		this.point = point;
 	}
-	public List<Answer> getAnswers() {
+	public Map<String,Answer> getAnswers() {
 		return answers;
 	}
-	public void setAnswers(List<Answer> answers) {
+	public void setAnswers(Map<String,Answer> answers) {
 		this.answers = answers;
 	}
 	

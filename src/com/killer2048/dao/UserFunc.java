@@ -1,8 +1,7 @@
 package com.killer2048.dao;
 
-import java.util.List;
 
-import com.killer2048.bean.Question;
+import com.killer2048.bean.Exam;
 import com.killer2048.bean.User;
 
 public interface UserFunc {
@@ -13,11 +12,12 @@ public interface UserFunc {
 	//注册
 	public User login(String username,String password);
 	//进入答题
-	public List<Question> startExam(int userid);
+	public Exam startExam(int userid);
 	//进入答题并选择给定数量的题
-	public List<Question> startExam(int userid,int quesCount);
+	public Exam startExam(int userid,int quesCount);
 	
 	//提交成绩
+	public void endExam(Exam exam);
 	
 	//查看记录
 	
