@@ -1,0 +1,38 @@
+-- Create table
+create table TAB_EXAM
+(
+  examid    NUMBER not null,
+  point     NUMBER,
+  questions VARCHAR2(50),
+  answers   VARCHAR2(50),
+  userid    NUMBER not null,
+  starttime DATE not null,
+  endtime   DATE not null
+)
+tablespace USERS
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table TAB_EXAM
+  add constraint PK_EXAMID_TAB_EXAM primary key (EXAMID)
+  using index 
+  tablespace USERS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter table TAB_EXAM
+  add constraint FK_USERID_TAB_EXAM foreign key (USERID)
+  references TAB_USER (USERID);

@@ -9,6 +9,7 @@ public class Question {
 	//         选项编号  选项对象
 	//          aid =>Answer对象
 	private Map<String,Answer> answers;
+	
 	public int getQid() {
 		return qid;
 	}

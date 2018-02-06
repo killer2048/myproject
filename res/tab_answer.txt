@@ -1,0 +1,35 @@
+-- Create table
+create table TAB_ANSWER
+(
+  aid     NUMBER not null,
+  answer  VARCHAR2(150),
+  isright NUMBER,
+  qid     NUMBER not null
+)
+tablespace USERS
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table TAB_ANSWER
+  add constraint PK_AID_TAB_ANSWER primary key (AID)
+  using index 
+  tablespace USERS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter table TAB_ANSWER
+  add constraint FK_QID_TAB_ANSWER foreign key (QID)
+  references TAB_QUESTION (QID);

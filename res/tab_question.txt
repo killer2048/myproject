@@ -1,0 +1,31 @@
+-- Create table
+create table TAB_QUESTION
+(
+  qid      NUMBER not null,
+  question VARCHAR2(150) not null,
+  point    NUMBER
+)
+tablespace USERS
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table TAB_QUESTION
+  add constraint PK_QID_TAB_QUESTION primary key (QID)
+  using index 
+  tablespace USERS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );

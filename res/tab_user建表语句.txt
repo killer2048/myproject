@@ -1,0 +1,47 @@
+1TAB_USER
+
+-- Create table
+create table TAB_USER
+(
+  userid   NUMBER not null,
+  username VARCHAR2(30) not null,
+  password VARCHAR2(30),
+  rule     NUMBER not null
+)
+tablespace USERS
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table TAB_USER
+  add constraint PK_USERID_TAB_USER primary key (USERID)
+  using index 
+  tablespace USERS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+alter table TAB_USER
+  add constraint UQ_USERNAME_TAB_USER unique (USERNAME)
+  using index 
+  tablespace USERS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
