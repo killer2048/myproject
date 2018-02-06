@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.killer2048.DbUtil.JdbcConnect;
@@ -114,6 +115,7 @@ public class UserImpl implements UserFunc {
 	}
 	
 	protected List<Question> getQuestions(int count){
+		"10,23,33".split(",")
 		//抽题，返回不带选项的问题list
 		String sql = "select * from (select qid,question,point from tab_question order by sys_guid()) where rownum<"+count;
 		Connection conn = getConn();
@@ -128,8 +130,13 @@ public class UserImpl implements UserFunc {
 		}
 		try {
 			rs = st.executeQuery(sql);
+			ret = new ArrayList<Question>();
 			while(rs.next()){
-				
+				Question qtemp = new Question();
+				qtemp.setQid(rs.getInt("qid"));
+				qtemp.setQuestion(rs.getString("question"));
+				qtemp.setPoint(rs.getInt("point"));
+				ret.add(qtemp);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
