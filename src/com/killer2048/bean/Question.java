@@ -1,6 +1,5 @@
 package com.killer2048.bean;
 
-import java.util.List;
 import java.util.Map;
 
 public class Question {
@@ -34,5 +33,6 @@ public class Question {
 	public void setAnswers(Map<String,Answer> answers) {
 		this.answers = answers;
 	}
+	
 	
 }

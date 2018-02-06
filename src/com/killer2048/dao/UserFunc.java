@@ -1,6 +1,8 @@
 package com.killer2048.dao;
 
 
+import java.util.List;
+
 import com.killer2048.bean.Exam;
 import com.killer2048.bean.User;
 
@@ -18,7 +20,9 @@ public interface UserFunc {
 	
 	//提交成绩
 	public void endExam(Exam exam);
-	
-	//查看记录
+	//查看记录(获取examid和时间分数,一个List<Exam>，元素中只有examid,point,starttime,endtime,userid)
+	public List<Exam> getExamList(int userid);
+	//由id获取Exam
+	public Exam getExamById(int examid);
 	
 }

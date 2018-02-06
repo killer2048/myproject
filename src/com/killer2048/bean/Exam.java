@@ -1,5 +1,6 @@
 package com.killer2048.bean;
 
+import java.sql.Date;
 import java.util.List;
 
 public class Exam {
@@ -8,6 +9,20 @@ public class Exam {
 	private String answers;
 	private int point;
 	private int userid;
+	private Date starttime;
+	private Date endtime;
+	public Date getStarttime() {
+		return starttime;
+	}
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
+	}
+	public Date getEndtime() {
+		return endtime;
+	}
+	public void setEndtime(Date endtime) {
+		this.endtime = endtime;
+	}
 	public int getExamid() {
 		return examid;
 	}
