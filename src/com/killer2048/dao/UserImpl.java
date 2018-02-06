@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import com.killer2048.DbUtil.JdbcConnect;
@@ -102,9 +103,40 @@ public class UserImpl implements UserFunc {
 	}
 
 	@Override
-	public List<Question> startExam(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Question> startExam(int userid) {
+		//默认抽10个题
+		return startExam(userid,10);
+	}
+
+	@Override
+	public List<Question> startExam(int userid, int quesCount) {
+		
+	}
+	
+	protected List<Question> getQuestions(int count){
+		//抽题，返回不带选项的问题list
+		String sql = "select * from (select qid,question,point from tab_question order by sys_guid()) where rownum<"+count;
+		Connection conn = getConn();
+		Statement st = null;
+		ResultSet rs = null;
+		List<Question> ret = null;
+		try {
+			st = conn.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JdbcConnect.close(conn);
+		}
+		try {
+			rs = st.executeQuery(sql);
+			while(rs.next()){
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcConnect.close(rs, st, conn);
+		}
+		
 	}
 
 }

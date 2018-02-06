@@ -13,7 +13,10 @@ public interface UserFunc {
 	//注册
 	public User login(String username,String password);
 	//进入答题
-	public List<Question> startExam(int id);
+	public List<Question> startExam(int userid);
+	//进入答题并选择给定数量的题
+	public List<Question> startExam(int userid,int quesCount);
+	
 	//提交成绩
 	
 	//查看记录

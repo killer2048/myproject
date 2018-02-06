@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class JdbcConnect {
@@ -44,7 +45,7 @@ public class JdbcConnect {
 		Class.forName(driver);
 		return DriverManager.getConnection(url, name, pw);
 	}
-	public static void close(PreparedStatement ps,Connection conn){
+	public static void close(Statement ps,Connection conn){
 		try {
 			if(ps!=null){
 				ps.close();
@@ -65,7 +66,7 @@ public class JdbcConnect {
 			e.printStackTrace();
 		}
 	}
-	public static void close(ResultSet rs,PreparedStatement ps,Connection conn){
+	public static void close(ResultSet rs,Statement ps,Connection conn){
 		try {
 			if(rs!=null){
 				rs.close();
