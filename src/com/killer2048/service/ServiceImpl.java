@@ -2,8 +2,12 @@ package com.killer2048.service;
 
 import java.util.List;
 
+import com.killer2048.bean.Answer;
 import com.killer2048.bean.Exam;
+import com.killer2048.bean.Question;
 import com.killer2048.bean.User;
+import com.killer2048.dao.AdminFunc;
+import com.killer2048.dao.AdminImpl;
 import com.killer2048.dao.UserFunc;
 import com.killer2048.dao.UserImpl;
 
@@ -57,6 +61,19 @@ public class ServiceImpl implements Service {
 		return u.getExamById(examid);
 	}
 
+	@Override
+	public boolean addQuestion(Question question) {
+		AdminFunc a = new AdminImpl();
+		return a.addQuestion(question);
+	}
+
+	@Override
+	public boolean addQuestion(Question question, List<Answer> answers) {
+		AdminFunc a = new AdminImpl();
+		return a.addQuestion(question,answers);
+	}
+
+	
 	
 
 }
