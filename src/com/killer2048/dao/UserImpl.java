@@ -244,7 +244,7 @@ public class UserImpl implements UserFunc {
 		User ret = null;
 		try {
 			ps.setString(1, username);
-			ps.setString(2, "password");
+			ps.setString(2, password);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				ret = new User();
