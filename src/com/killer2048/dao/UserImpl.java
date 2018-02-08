@@ -1,11 +1,11 @@
 package com.killer2048.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -174,8 +174,8 @@ public class UserImpl implements UserFunc {
 			ps.setString(2, getQuestionsString(exam.getQuestions()));
 			ps.setString(3, exam.getAnswers());
 			ps.setInt(4, exam.getUserid());
-			ps.setDate(5, exam.getStarttime());
-			ps.setDate(6, exam.getEndtime());
+			ps.setTimestamp(5, exam.getStarttime());
+			ps.setTimestamp(6, exam.getEndtime());
 			ret = ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -188,7 +188,7 @@ public class UserImpl implements UserFunc {
 
 	protected Exam createExam(int userid, List<Question> questions) {
 		Exam exam = new Exam();
-		exam.setStarttime(new Date(System.currentTimeMillis()));
+		exam.setStarttime(new Timestamp(System.currentTimeMillis()));
 		exam.setUserid(userid);
 		exam.setQuestions(questions);
 		//TODO:考试时间限制，写死15分钟，单位秒
@@ -281,7 +281,7 @@ public class UserImpl implements UserFunc {
 	@Override
 	public void endExam(Exam exam) {
 		// 考试结束
-		exam.setEndtime(new Date(System.currentTimeMillis()));
+		exam.setEndtime(new Timestamp(System.currentTimeMillis()));
 		saveExam(exam);
 
 	}
@@ -311,8 +311,8 @@ public class UserImpl implements UserFunc {
 				questions = rs.getString("questions");
 				ret.setAnswers(rs.getString("answers"));
 				ret.setUserid(rs.getInt("userid"));
-				ret.setStarttime(rs.getDate("starttime"));
-				ret.setEndtime(rs.getDate("endtime"));
+				ret.setStarttime(rs.getTimestamp("starttime"));
+				ret.setEndtime(rs.getTimestamp("endtime"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -348,8 +348,8 @@ public class UserImpl implements UserFunc {
 				examitem.setExamid(rs.getInt("examid"));
 				examitem.setPoint(rs.getInt("point"));
 				examitem.setUserid(userid);
-				examitem.setStarttime(rs.getDate("starttime"));
-				examitem.setEndtime(rs.getDate("endtime"));
+				examitem.setStarttime(rs.getTimestamp("starttime"));
+				examitem.setEndtime(rs.getTimestamp("endtime"));
 				ret.add(examitem);
 			}
 		} catch (SQLException e) {
