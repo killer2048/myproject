@@ -191,6 +191,8 @@ public class UserImpl implements UserFunc {
 		exam.setStarttime(new Date(System.currentTimeMillis()));
 		exam.setUserid(userid);
 		exam.setQuestions(questions);
+		//TODO:考试时间限制，写死15分钟，单位秒
+		exam.setLasted(15*60);
 		return exam;
 
 	}

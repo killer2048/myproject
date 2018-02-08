@@ -10,7 +10,14 @@ public class Exam {
 	private int point;
 	private int userid;
 	private Date starttime;
+	private int lasted;
 	private Date endtime;
+	public int getLasted() {
+		return lasted;
+	}
+	public void setLasted(int lasted) {
+		this.lasted = lasted;
+	}
 	public Date getStarttime() {
 		return starttime;
 	}
