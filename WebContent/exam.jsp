@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -32,7 +32,7 @@ var exam ={
 (function(e){
 	var examitem = {};
 	var examid=${sessionScope.exam.examid};
-	var starttime=Date.parse("${sessionScope.exam.starttime}".replace(" ","T"));
+	var starttime=Date.parse("${sessionScope.exam.starttime}+08:00".replace(" ","T"));//ISO 8601 的完整日期格式是 YYYY-MM-DDThh:mm:ss.sTZD
 	var lasted=${sessionScope.exam.lasted}*1000;//毫秒
 	var endtime = starttime+lasted;
 	var question=[<c:forEach items="${sessionScope.exam.questions}" var="questionitem" varStatus="status">{
