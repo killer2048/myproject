@@ -5,14 +5,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>答题</title>
 </head>
 <body>
-<div>
-剩余时间：<span id="timer"></span>
-</div>
-<form action="ExamServlet" method="post">
-	<input type="hidden" name="answers" value="">
+	<div class="exam-container">
+		<div>剩余时间：<span id="timer"></span></div>
+		<div id="question"></div>
+		<div>分值: <span id="point"></span></div>
+		<hr>
+		<ul id="answerlist">
+			
+		</ul>
+	</div>
+	
+	<div id="question-selector">
+		<button id="previous">上一题</button>
+		<button id=next>下一题</button>
+	</div>
+	<hr>
+	<button id="endExam">交卷</button>
+
+<form action="ExamServlet" method="post" id="answerform">
+	<input type="hidden" name="answers" value="" id="answerstr">
 </form>
 </body>
 <script>
@@ -25,7 +39,7 @@ var exam ={
 					qid:${questionitem.qid},
 					question:"${questionitem.question}",
 					point:${questionitem.point},
-					answers:[<c:forEach items="${questionitem.answers}" var="answeritem" varStatus="status2">{qid:${answeritem.value.qid},answer:"${answeritem.value.answer}"}${status2.last?"":","}</c:forEach>]
+					answers:[<c:forEach items="${questionitem.answers}" var="answeritem" varStatus="status2">{aid:${answeritem.value.aid},answer:"${answeritem.value.answer}"}${status2.last?"":","}</c:forEach>]
 				}${status.last?"":","}</c:forEach>]
 		};
 		*/
@@ -39,12 +53,15 @@ var exam ={
 						qid:${questionitem.qid},
 						question:"${questionitem.question}",
 						point:${questionitem.point},
-						answers:[<c:forEach items="${questionitem.answers}" var="answeritem" varStatus="status2">{qid:${answeritem.value.qid},answer:"${answeritem.value.answer}"}${status2.last?"":","}</c:forEach>]
+						answers:[<c:forEach items="${questionitem.answers}" var="answeritem" varStatus="status2">{aid:${answeritem.value.aid},answer:"${answeritem.value.answer}"}${status2.last?"":","}</c:forEach>]
 					}${status.last?"":","}</c:forEach>];
 	var currentQuestion=0;
 	var count=question.length;
 	var answerarr = [];
 	var timerele = document.getElementById("timer");
+	var questinele = document.getElementById("question");
+	var answerlist = document.getElementById("answerlist");
+	var pointele = document.getElementById("point");
 	//初始化答案
 	for(var i=0;i<count;i++){
 		answerarr[i]=0;
@@ -52,6 +69,30 @@ var exam ={
 	function setQuestion(id){
 		//设置并显示指定问题
 		currentQuestion = id;
+		var curr = question[id];
+		questinele.innerHTML=id+1+"."+curr.question;
+		pointele.innerHTML=curr.point;
+		var answers = curr.answers;
+		while(answerlist.hasChildNodes()) 
+    	{
+    		//删除answerlist下的所有节点
+        	answerlist.removeChild(answerlist.firstChild);
+    	}
+    	for(var i=0;i<answers.length;i++){
+    		var li = document.createElement("li");
+    		var radio = document.createElement("input");
+    		var label = document.createElement("label");
+    		radio.type="radio";
+    		radio.name="answeritems";
+    		radio.value=answers[i].aid;
+    		radio.id="ans"+i;
+    		label.for="ans"+i;
+    		label.innerHTML=answers[i].answer;
+    		li.appendChild(radio);
+    		li.appendChild(label);
+    		answerlist.appendChild(li);
+    		}
+
 	}
 	//设置考试
 	examitem.setExam=function(){
@@ -67,7 +108,13 @@ var exam ={
 		},200);
 		var now = new Date().getTime();
 		setQuestion(0);
-	},
+		var previous = document.getElementById("previous");
+		var next = document.getElementById("next");
+		var end = document.getElementById("endExam");
+		previous.addEventListener("click",examitem.previousQuestion);
+		next.addEventListener("click",examitem.nextQuestion);
+		end.addEventListener("click",examitem.endExam);
+	};
 	//下一题
 	examitem.nextQuestion=function(){
 		if(currentQuestion>=count-1){
@@ -75,7 +122,7 @@ var exam ={
 			return;
 		}
 		examitem.selectQuestion(currentQuestion+1);
-	},
+	};
 	//上一题
 	examitem.previousQuestion=function(){
 		if(currentQuestion<=0){
@@ -83,7 +130,7 @@ var exam ={
 			return;
 		}
 		examitem.selectQuestion(currentQuestion-1);
-	},
+	};
 	//选择题号
 	examitem.selectQuestion=function(id){
 		if(id<0||id>=count){
@@ -93,23 +140,40 @@ var exam ={
 		//更新答案数组
 		examitem.updateAnswers();
 		setQuestion(id);
-	}
+	};
 	//更新答案
 	examitem.updateAnswers=function(){
 		//获取当前的答案并用对应的id加入answerarr
-		
-		//获取aid
-		var aid = 2;
-		
+		var answers = document.getElementsByName("answeritems");
+		var aid = 0;
+		for(var i=0;i<answers.length;i++){
+			if(answers[i].checked==true){
+				aid = parseInt(answers[i].value);
+				break;
+			}
+		}
 		answerarr[currentQuestion] = aid;
-		
 		console.log(answerarr);
-	},
+	};
 	examitem.endExam = function(){
 		examitem.updateAnswers();
-		//提交答案
-		console.log(answerarr);
-	}
+		//确认交卷
+		if(!confirm("确认交卷")){
+			return;
+		}
+		var str = "";
+		for(var i=0;i<count;i++){
+			str+=answerarr[i];
+			if(i!=count-1){
+				str+=",";
+			}
+		}
+		console.log(str);
+		var answerstrele = document.getElementById("answerstr");
+		answerstrele.value=str;
+		var form = document.getElementById("answerform");
+		form.submit();
+	};
 	e.exam=examitem;
 }(window))
 
@@ -119,56 +183,5 @@ var exam ={
 			exam.setExam();
 		}
 		
-	
-
-//最终样子
-/*
-var a = {
-		examid:0,
-		starttime:"2018-02-09 16:57:29.156",
-		lasted:900,
-		question:[
-			{
-				qid:2,
-				question:"dksajfhaskjdfhlaskdjfhsd",
-				point:20,
-				answers:[
-					{
-						aid:4,
-						answer:11113
-					},
-					{
-						aid:4,
-						answer:11113
-					},
-					{
-						aid:4,
-						answer:11113
-					},
-				]
-			},
-			{
-				qid:2,
-				question:"dksajfhaskjdfhlaskdjfhsd",
-				point:20,
-				answers:[
-					{
-						aid:4,
-						answer:11113
-					},
-					{
-						aid:4,
-						answer:11113
-					},
-					{
-						aid:4,
-						answer:11113
-					},
-				]
-			}
-		]
-
-
-	}*/
 </script>
 </html>
